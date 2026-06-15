@@ -1,0 +1,23 @@
+[
+    {
+        "setup": "original_selected_features",
+        "accuracy": 0.655151515151515,
+        "precision": 0.7192810698073856,
+        "recall": 0.6893393393393393,
+        "f1": 0.6881400684082192
+    },
+    {
+        "setup": "pca_components_90_variance",
+        "accuracy": 0.6522144522144522,
+        "precision": 0.7010538269361799,
+        "recall": 0.6893393393393393,
+        "f1": 0.6867094298599034
+    },
+    {
+        "setup": "original_plus_network_features",
+        "accuracy": 0.6981818181818182,
+        "precision": 0.7386256473774004,
+        "recall": 0.7220720720720721,
+        "f1": 0.7263351734831114
+    }
+]

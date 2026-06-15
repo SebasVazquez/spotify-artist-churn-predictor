@@ -3,7 +3,8 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-
+from pydantic import BaseModel
+from app.recommender import recommend_for_user
 import joblib
 import numpy as np
 from fastapi import Body, FastAPI, HTTPException, Query
@@ -47,7 +48,10 @@ def health():
         "model_loaded": MODEL_PATH.exists(),
     }
 
-
+class RecommendRequest(BaseModel):
+    user_id: str
+    top_n: int = 5
+    risk_threshold: float = 0.5
 @app.get("/")
 def root():
     return {
@@ -215,3 +219,10 @@ def collect_top_artists():
         "medium_term_count": len(top_artists_by_range["medium_term"].get("items", [])),
         "short_term_count": len(top_artists_by_range["short_term"].get("items", [])),
     }
+@app.post("/recommend")
+def recommend(request: RecommendRequest):
+    return recommend_for_user(
+        user_id=request.user_id,
+        top_n=request.top_n,
+        risk_threshold=request.risk_threshold
+    )

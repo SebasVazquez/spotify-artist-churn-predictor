@@ -5,4 +5,4 @@ data/raw/
 data/processed/
 app/model.pkl
 .ipynb_checkpoints/
-data/raw/
+data/raw/   

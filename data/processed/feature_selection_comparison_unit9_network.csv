@@ -1,0 +1,14 @@
+feature,filter_anova_rank,rfe_selected,dt_rank,rf_rank,selection_score,decision
+medium_rank_score,1,True,1,1,4,Keep
+historical_best_rank,6,False,3,2,3,Keep
+historical_affinity_score,4,False,7,3,3,Keep
+historical_avg_rank,5,False,4,4,3,Keep
+artist_pagerank,9,True,2,5,3,Keep
+artist_betweenness_centrality,12,True,5,7,3,Keep
+rank_change_long_to_medium,7,False,10,6,2,Keep
+appears_medium_term,3,True,13,8,2,Keep
+user_pagerank,10,True,8,9,1,Drop
+user_degree_centrality,8,False,6,10,1,Drop
+user_betweenness_centrality,11,True,12,11,1,Drop
+is_long_only,2,False,9,12,1,Drop
+artist_degree_centrality,13,True,11,13,1,Drop

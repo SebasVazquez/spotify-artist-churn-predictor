@@ -1,0 +1,24 @@
+{
+    "explained_variance_ratio": [
+        0.6859,
+        0.2258,
+        0.0649,
+        0.0188,
+        0.0046,
+        0.0,
+        0.0
+    ],
+    "cumulative_explained_variance": [
+        0.6859,
+        0.9117,
+        0.9766,
+        0.9954,
+        1.0,
+        1.0,
+        1.0
+    ],
+    "n_components_90_variance": 2,
+    "pca_elbow_plot": "C:\\Users\\sebas\\Documents\\spotify-churn-predictor\\data\\processed\\figures\\pca_elbow.png",
+    "pca_scatter_plot": "C:\\Users\\sebas\\Documents\\spotify-churn-predictor\\data\\processed\\figures\\pca_scatter.png",
+    "pc1_pc2_variance": 0.9116582071168775
+}
