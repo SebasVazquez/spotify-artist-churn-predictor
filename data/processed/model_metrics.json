@@ -1,0 +1,28 @@
+{
+  "rows": 328,
+  "target_distribution": {
+    "1": 0.5579268292682927,
+    "0": 0.4420731707317073
+  },
+  "selected_features": [
+    "medium_rank_score",
+    "historical_affinity_score",
+    "historical_best_rank",
+    "is_long_only",
+    "rank_change_long_to_medium",
+    "historical_avg_rank",
+    "appears_medium_term"
+  ],
+  "test_metrics": {
+    "accuracy": 0.7317073170731707,
+    "precision": 0.7608695652173914,
+    "recall": 0.7608695652173914,
+    "f1": 0.7608695652173914
+  },
+  "cross_validation_metrics": {
+    "accuracy": 0.694965034965035,
+    "precision": 0.7496970536941431,
+    "recall": 0.7114114114114114,
+    "f1": 0.7193351403476764
+  }
+}
