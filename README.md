@@ -555,7 +555,198 @@ This project has several limitations:
 
 Despite these limitations, the project demonstrates the complete data science workflow: data collection, feature engineering, feature selection, model training, API deployment, and Dockerization.
 
----
+----------------------------------------------------------------
+
+## Unit 9 Extension: From Churn Prediction to Retention
+
+This project was extended beyond churn prediction to include retention-oriented analysis. The original system answered the question:
+
+> Which user-artist relationships are likely to churn?
+
+The Unit 9 extension adds a second question:
+
+> What can be recommended to re-engage an at-risk user?
+
+To support this, the project now includes PCA analysis, SVD-based recommendations, network graph analysis, updated feature selection, and an additional FastAPI endpoint.
+
+### 1. PCA Dimensionality Reduction
+
+The selected engineered features were standardized and compressed using Principal Component Analysis (PCA). The goal was to evaluate whether a smaller set of principal components could preserve enough information to perform similarly to the original selected features.
+
+The PCA extension generates:
+
+```text
+data/processed/figures/pca_elbow.png
+data/processed/figures/pca_scatter.png
+data/processed/pca_metrics.json
+```
+
+The elbow plot shows how much cumulative variance is explained as the number of components increases. The 2D scatter plot visualizes the data in PCA space, colored by the churn label.
+
+### 2. Model Comparison
+
+The project now compares three modeling setups:
+
+```text
+1. Original selected features
+2. PCA components explaining 90% of variance
+3. Original selected features plus network centrality features
+```
+
+The comparison results are saved in:
+
+```text
+data/processed/model_comparison_unit9.csv
+data/processed/model_comparison_unit9.json
+```
+
+This allows the project to evaluate whether dimensionality reduction or network enrichment improves model performance compared to the original feature set.
+
+### 3. Network Analysis
+
+A user-artist interaction graph was built using NetworkX. In this graph, users are connected to artists based on historical listening behavior. Since the Spotify API data used in this project does not include explicit social relationships, the graph is based on listening interactions rather than follower relationships.
+
+The network analysis computes centrality metrics such as:
+
+```text
+user_degree_centrality
+user_betweenness_centrality
+user_pagerank
+artist_degree_centrality
+artist_betweenness_centrality
+artist_pagerank
+```
+
+These metrics are merged back into the machine learning dataset as additional features.
+
+Generated files:
+
+```text
+data/processed/spotify_artist_churn_dataset_with_network.csv
+data/processed/feature_selection_comparison_unit9_network.csv
+data/processed/figures/network_graph.png
+```
+
+After adding network features, the four feature selection methods were re-run:
+
+```text
+Filter Methods
+Recursive Feature Elimination
+Decision Tree Importance
+Random Forest Importance
+```
+
+This creates an updated comparison table that evaluates both the original features and the new network-based features.
+
+### 4. SVD-Based Recommendation Engine
+
+The project now includes a recommendation module based on Singular Value Decomposition (SVD). A user-artist affinity matrix is created using historical affinity scores. SVD decomposes this matrix to find latent patterns between users and artists.
+
+The recommendation logic is implemented in:
+
+```text
+app/recommender.py
+```
+
+The recommender identifies artists that similar users have strong affinity for, but that the target user has not already engaged with. This creates a simple retention mechanism: when a user is predicted to be at risk, the system can suggest artists that may help re-engage them.
+
+### 5. New `/recommend` Endpoint
+
+A new FastAPI endpoint was added:
+
+```text
+POST /recommend
+```
+
+Example request:
+
+```json
+{
+  "user_id": "example_user_id",
+  "top_n": 5,
+  "risk_threshold": 0.5
+}
+```
+
+Example response:
+
+```json
+{
+  "user_id": "example_user_id",
+  "at_risk": true,
+  "churn_probability": 0.732,
+  "average_churn_probability": 0.541,
+  "method": "SVD collaborative filtering on user-artist affinity matrix",
+  "recommendations": [
+    {
+      "artist_id": "artist_id_1",
+      "artist_name": "Artist Name",
+      "recommendation_score": 0.8123
+    }
+  ]
+}
+```
+
+The endpoint first checks the user’s churn risk. If the user is not above the risk threshold, no recommendation is returned. This keeps the system aligned with a retention use case: recommendations are produced only when the user is considered at risk.
+
+For demonstration purposes, the threshold can be lowered to force recommendations:
+
+```json
+{
+  "user_id": "example_user_id",
+  "top_n": 5,
+  "risk_threshold": 0.0
+}
+```
+
+### 6. Running the Unit 9 Extension
+
+To generate the PCA analysis, network features, updated feature selection table, and model comparison files, run:
+
+```powershell
+python app/advanced_analysis.py
+```
+
+To start the API:
+
+```powershell
+docker compose up --build
+```
+
+To test the recommendation endpoint:
+
+```powershell
+$body = @{
+    user_id = "PASTE_USER_ID_HERE"
+    top_n = 5
+    risk_threshold = 0.0
+} | ConvertTo-Json
+
+Invoke-RestMethod -Uri "http://127.0.0.1:8000/recommend" -Method POST -Body $body -ContentType "application/json" | ConvertTo-Json -Depth 5
+```
+
+### 7. Limitation of the Extension
+
+The recommendation and network analysis components are implemented as a working prototype. The current dataset contains a small number of Spotify users, so the SVD recommendations and network centrality metrics are limited by data size. With more users and richer Spotify interaction data, the recommendation engine and graph-based features would become more reliable.
+
+Despite this limitation, the extension demonstrates a complete production-style pipeline:
+
+```text
+collect data
+engineer features
+predict churn risk
+analyze feature structure with PCA
+enrich the model with network features
+recommend artists for at-risk users
+```
+
+This moves the project from a pure prediction system toward a retention-oriented recommendation system.
+
+
+
+
+
+
 
 ## Author
 
