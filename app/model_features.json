@@ -1,0 +1,9 @@
+[
+  "medium_rank_score",
+  "historical_affinity_score",
+  "historical_best_rank",
+  "is_long_only",
+  "rank_change_long_to_medium",
+  "historical_avg_rank",
+  "appears_medium_term"
+]

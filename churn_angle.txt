@@ -1,0 +1,1 @@
+Predecir si un usuario deja de escuchar a un artista comparando afinidad histórica contra afinidad reciente.

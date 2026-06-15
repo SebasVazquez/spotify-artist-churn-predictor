@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+data/raw/
+data/processed/
+app/model.pkl
+.ipynb_checkpoints/
+data/raw/

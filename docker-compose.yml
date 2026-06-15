@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  churn-api:
+    build: .
+    container_name: spotify-churn-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.example
+    volumes:
+      - ./data:/project/data
+      - ./app/model.pkl:/project/app/model.pkl
+      - ./app/model_features.json:/project/app/model_features.json
